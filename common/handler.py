@@ -17,6 +17,7 @@ class RequestHandler:
         self.playlist_uri = None
 
     def request_interceptor(self, request):
+        print(request)
         if 'm3u8' in request.url and not self.playlist_uri:
             self.playlist_uri = request.url
     
