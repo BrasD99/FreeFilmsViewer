@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Поиск фильмов</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/search.css') }}">
+</head>
+<body>
+  {% if films %}
+  <h1 class="label">Результаты по запросу: {{ query }}</h1>
+  <div class="container">
+    {% for film in films %}
+    <div class="item">
+      <a href="/watch/{{film.filmId}}" title="{{ film.nameRu }}">
+        <img src="{{ film.posterUrl }}" alt="{{ film.nameRu }}">
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</body>
+</html>

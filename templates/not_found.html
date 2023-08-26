@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Фильм не найден</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/not_found.css') }}">
+</head>
+<body>
+    <div class="wrap">
+        <h1 class="label">Фильм не найден ;(</h1>
+        <div class="container">
+           <button type="submit" class="backButton">
+                Вернуться на главную страницу
+           </button>
+        </div>
+     </div>
+     <script src="{{ url_for('static', filename='scripts/not_found.js') }}"></script>
+</body>
+</html>
