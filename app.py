@@ -1,5 +1,5 @@
 from common.catalog import Catalog
-from common.handler import RequestHandler
+#from common.handler import RequestHandler
 from flask import Flask, render_template, request, redirect, url_for
 import json
 
@@ -9,7 +9,7 @@ with open('config.json', 'r') as f:
 api_key = config['api_key']
 voidboost_uri = config['voidboost_uri']
 catalog = Catalog(api_key)
-handler = RequestHandler(voidboost_uri)
+#handler = RequestHandler(voidboost_uri)
 
 app = Flask(__name__)
 
@@ -31,12 +31,14 @@ def not_found():
 
 @app.route('/watch/<int:film_id>')
 def watch(film_id):
-    film = catalog.search_by_id(film_id)
-    if film:
-        playlist_uri = handler.process(f'{voidboost_uri}/embed/{film_id}')
-        if playlist_uri:
-            return render_template('watch.html', playlist_uri=playlist_uri)
+    return redirect(f'{voidboost_uri}/embed/{film_id}')
 
-    return render_template('not_found.html')
+    #film = catalog.search_by_id(film_id)
+    #if film:
+    #    playlist_uri = handler.process(f'{voidboost_uri}/embed/{film_id}')
+    #    if playlist_uri:
+    #        return render_template('watch.html', playlist_uri=playlist_uri)
+
+    #return render_template('not_found.html')
     
 #app.run(port='8000')
