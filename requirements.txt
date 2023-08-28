@@ -4,3 +4,4 @@ selenium-wire
 chromedriver-binary
 requests
 gunicorn
+beautifulsoup4
