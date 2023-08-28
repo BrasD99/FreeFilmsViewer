@@ -30,7 +30,7 @@ def not_found():
 
 @app.route('/watch/<int:film_id>')
 def watch(film_id):
-    #return redirect(f'{voidboost_uri}/embed/{film_id}')
-    return remove_ads(f'{voidboost_uri}/embed/{film_id}')
+    return redirect(f'{voidboost_uri}/embed/{film_id}')
+    #return remove_ads(f'{voidboost_uri}/embed/{film_id}')
     
 #app.run(port='8000')
