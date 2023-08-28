@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Поиск фильмов</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -11,7 +12,7 @@
         <h5 class="label">Сделано с ❤️ от <a href="https://t.me/brasd99" target="_blank">@brasd99</a></h5>
          <div class="search">
             <input type="text" class="searchTerm" placeholder="Название фильма">
-            <button type="submit" class="searchButton">
+            <button type="submit" class="searchButton" id="searchButton">
               <i class="fa fa-search"></i>
            </button>
          </div>
