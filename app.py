@@ -187,4 +187,4 @@ def generate_thumbnail(slug, timestamp):
     uri = f'{voidboost_uri}/thumbnails/{slug}/{timestamp}'
     return preprocess_thumbnails(uri, proxy_uri)
 
-app.run(port='8000')
+#app.run(port='8000')

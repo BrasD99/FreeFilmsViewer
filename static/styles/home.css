@@ -5,6 +5,10 @@ body{
   font-family: 'Arimo', Arial, sans-serif;
 }
 
+h1{
+	font-weight: 400;
+}
+
 .label {
   text-align: center;
   width: 100%;
