@@ -9,9 +9,9 @@
     <div class="wrap">
         <h1 class="label">Фильм не найден ;(</h1>
         <div class="container">
-           <button type="submit" class="backButton">
-                Вернуться на главную страницу
-           </button>
+            <div id="back_btn" class="button-container">
+               <button class="custom-btn btn-design">Назад</button>
+            </div>
         </div>
      </div>
      <script src="{{ url_for('static', filename='scripts/not_found.js') }}"></script>

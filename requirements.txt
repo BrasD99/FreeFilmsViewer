@@ -1,7 +1,4 @@
 flask
-webdriver_manager
-selenium-wire
-chromedriver-binary
 requests
 gunicorn
 beautifulsoup4

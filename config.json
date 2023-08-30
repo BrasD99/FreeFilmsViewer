@@ -1,4 +1,5 @@
 {
     "api_key": "e02bf4bf-c20b-4917-b118-fc938cfaed54",
-    "voidboost_uri": "http://voidboost.tv"
+    "voidboost_uri": "https://voidboost.tv",
+    "proxy_uri": "http://127.0.0.1:8000/proxy?url="
 }

@@ -24,6 +24,16 @@ class Catalog:
 
             pages_count = data['pagesCount']
 
+            for film in data['films']:
+                if film['rating'] == 'null':
+                    film['rating'] = '-'
+                if film['type'] == 'FILM':
+                    film['_type'] = 'Фильм'
+                elif film['type'] == 'TV_SERIES':
+                    film['_type'] = 'Сериал'
+                else:
+                    film['_type'] = 'Неизвестно'
+        
             films.extend([film for film in data['films']])
 
             if only_first:

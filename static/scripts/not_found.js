@@ -1,4 +1,4 @@
-const backButton = document.querySelector('.backButton');
+const backButton = document.getElementById('back_btn');
 
 backButton.addEventListener('click', function() {
   const currentHost = window.location.host;
