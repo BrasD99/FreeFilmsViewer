@@ -1,4 +1,5 @@
 import requests
+import time
 
 class Catalog:
     def __init__(self, api_key):
@@ -8,6 +9,9 @@ class Catalog:
     
     def search_by_name(self, prompt, only_first=False):
         page_num = pages_count = 1
+        retry_limit = 3
+        retry_delay = 1
+
         films = []
 
         while page_num <= pages_count:
@@ -15,12 +19,23 @@ class Catalog:
                 'keyword': prompt,
                 'page': page_num,
             }
-            response = requests.get(
-                'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword',
-                params=params,
-                headers=self.headers
-            )
-            data = response.json()
+            for i in range(retry_limit):
+                response = requests.get(
+                    'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword',
+                    params=params,
+                    headers=self.headers
+                )
+
+                if response.status_code == 200:
+                    data = response.json()
+                    break
+
+                if i == retry_limit - 1:
+                    raise Exception('Blocked ;(')
+
+                print(f"Request failed with status code {response.status_code}. Retrying in {retry_delay} seconds...")
+                time.sleep(retry_delay)
+
 
             pages_count = data['pagesCount']
 
