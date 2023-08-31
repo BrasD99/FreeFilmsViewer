@@ -24,6 +24,7 @@ def check_availavility(uri):
 
 def make_proxy_request(uri, proxy_uri):
     response = requests.get(uri)
+    headers = dict(response.headers)
     if 'm3u8' in uri:
         uri = response.url
         modified_file = ""
@@ -37,15 +38,8 @@ def make_proxy_request(uri, proxy_uri):
             else:
                 modified_file += line + "\n"
 
-        return modified_file, {}
-    elif 'ts' in uri:
-        headers = {
-            'Content-Type': 'video/mp2t',
-            'Content-Disposition': 'attachment; filename="segment.ts"'
-        }
-        return response.content, headers
-    
-    return response.content, {}
+        return modified_file, headers
+    return response.content, headers
 
 def post(uri, data):
     response = requests.post(uri, data)

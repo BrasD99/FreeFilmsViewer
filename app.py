@@ -42,7 +42,7 @@ def home():
 def search():
     query = request.args.get('query')
 
-    films = catalog.search_by_name(query)
+    films = catalog.search_by_name(query, only_first=True)
     films = [film for i, film in enumerate(films) if film['filmId'] \
              not in {x['filmId'] for x in films[:i]}]
     
@@ -62,12 +62,7 @@ def not_found():
 def proxy():
     url = request.args.get('url')
     response, headers = make_proxy_request(url, proxy_uri)
-
-    if headers:
-        return make_response(response, headers)
-    
-    response = Response(response)
-    return response
+    return make_response(response, headers)
 
 @app.route('/movie/<slug>/iframe')
 def movie_iframe(slug):
