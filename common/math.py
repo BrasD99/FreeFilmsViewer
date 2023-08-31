@@ -20,14 +20,11 @@ def b2(string):
     decoded_str = b64_decoded.decode('utf-8')
     return decoded_str.replace('%00', '')
 
-def exist(x):
-    return x is not None and x != 'undefined'
-
 def decrypt(x):
     a = x[2:]
     for i in range(4, -1, -1):
         key = "bk" + str(i)
-        if exist(v.get(key)):
+        if v.get(key):
             if v[key] != "":
                 a = a.replace(file3_separator + b1(v[key]), "")
 
@@ -52,9 +49,9 @@ def encrypt(x, prefix):
         
         for i in range(4, -1, -1):
             key = "bk" + str(i)
-            if exist(v.get(key)):
+            if v.get(key):
                 if v[key] != "":
-                    a = a.replace(b1_r(v[key]), file3_separator + b1_r(v[key]))  # Обратная операция - добавление разделителя перед каждой закодированной строкой
+                    a = a.replace(b1_r(v[key]), file3_separator + b1_r(v[key]))
         
         return prefix + a
     except Exception as e:

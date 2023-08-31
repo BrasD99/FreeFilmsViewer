@@ -7,10 +7,8 @@ class Catalog:
             'x-api-key': api_key
         }
     
-    def search_by_name(self, prompt, only_first=False):
+    def search_by_name(self, prompt, retry_limit, retry_delay, only_first=False):
         page_num = pages_count = 1
-        retry_limit = 3
-        retry_delay = 1
 
         films = []
 
@@ -26,7 +24,7 @@ class Catalog:
                     headers=self.headers
                 )
 
-                if response.status_code == 200:
+                if response.ok:
                     data = response.json()
                     break
 
@@ -56,15 +54,3 @@ class Catalog:
             page_num += 1
         
         return films
-    
-    def search_by_id(self, film_id):
-        try:
-            response = requests.get(
-                f'https://kinopoiskapiunofficial.tech/api/v2.2/films/{film_id}',
-                headers=self.headers
-            )
-            response.raise_for_status()
-            return response.json()
-        except Exception as e:
-            print(e)
-            return None

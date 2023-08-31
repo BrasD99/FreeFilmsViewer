@@ -1,9 +1,13 @@
+import json
+import os
+import re
+
 import requests
 from bs4 import BeautifulSoup
-import re
 from enum import Enum
-from common.decryptor import decrypt, encrypt
 from urllib.parse import quote
+
+from common.math import decrypt, encrypt
 
 class STATES(Enum):
     AVAILABLE = 0
@@ -142,3 +146,23 @@ def modify_for_proxy(data, url):
 def get_redirect_uri(uri):
     response = requests.get(uri)
     return response.url
+
+def prepare_config(file='config.json'):
+    with open(file, 'r') as f:
+        config = json.load(f)
+
+    for key, value in config.items():
+        if isinstance(value, dict):
+            if 'default' not in value or 'try_env' not in value:
+                raise Exception('Invalid config value')
+
+            default_value = value['default']
+            try_env = value['try_env']
+            env_value = os.getenv(key)
+
+            if try_env and env_value:
+                config[key] = env_value
+            else:
+                config[key] = default_value
+
+    return config

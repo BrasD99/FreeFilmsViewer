@@ -1,34 +1,25 @@
+import concurrent.futures
+from urllib.parse import urlencode
+
+from flask import Flask, make_response, redirect, render_template, request, url_for
+
 from common.catalog import Catalog
 from common.helpers import (
-    check_film_availability, 
-    remove_ads, 
-    make_proxy_request, 
-    post, 
-    get, 
-    preprocess_thumbnails)
-from flask import (
-    Flask, 
-    render_template, 
-    request, 
-    redirect, 
-    url_for, 
-    Response, 
-    make_response)
-import json
-from urllib.parse import urlencode
-import concurrent.futures
-import os
+    check_film_availability,
+    get,
+    make_proxy_request,
+    post,
+    prepare_config,
+    preprocess_thumbnails,
+    remove_ads,
+)
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
+config = prepare_config()
 api_key = config['api_key']
 voidboost_uri = config['voidboost_uri']
-
-proxy_uri = os.getenv("proxy_uri")
-
-if not proxy_uri:
-    proxy_uri = config['proxy_uri']
+proxy_uri = config['proxy_uri']
+retry_limit = config['retry_limit']
+retry_delay = config['retry_delay']
 
 catalog = Catalog(api_key)
 
@@ -43,7 +34,7 @@ def search():
     query = request.args.get('query')
 
     try:
-        films = catalog.search_by_name(query, only_first=True)
+        films = catalog.search_by_name(query, retry_limit, retry_delay, only_first=True)
 
         films = [film for i, film in enumerate(films) if film['filmId'] \
                 not in {x['filmId'] for x in films[:i]}]
