@@ -8,6 +8,7 @@ from common.helpers import (
     check_film_availability,
     get,
     make_proxy_request,
+    map_uri_args,
     post,
     prepare_config,
     preprocess_thumbnails,
@@ -66,34 +67,12 @@ def proxy():
 
 @app.route('/movie/<slug>/iframe')
 def movie_iframe(slug):
-    uri = f'{voidboost_uri}/movie/{slug}/iframe'
-    query_args = {
-        's': request.args.get('s'),
-        'e': request.args.get('e'),
-        'h': request.args.get('h')
-    }
-    filtered_args = {key: value for key, value in query_args.items() \
-                      if value is not None}
-    if filtered_args:
-        query = urlencode(query_args)
-        uri += f'?{query}'
-
+    uri = map_uri_args(f'{voidboost_uri}/movie/{slug}/iframe', request.args)
     return remove_ads(uri, proxy_uri)
 
 @app.route('/serial/<slug>/iframe')
 def serial_iframe(slug):
-    uri = f'{voidboost_uri}/serial/{slug}/iframe'
-    query_args = {
-        's': request.args.get('s'),
-        'e': request.args.get('e'),
-        'h': request.args.get('h')
-    }
-    filtered_args = {key: value for key, value in query_args.items() \
-                      if value is not None}
-    if filtered_args:
-        query = urlencode(query_args)
-        uri += f'?{query}'
-    
+    uri = map_uri_args(f'{voidboost_uri}/serial/{slug}/iframe', request.args)
     return remove_ads(uri, proxy_uri)
 
 @app.route('/serial/data', methods=['POST'])
@@ -104,55 +83,20 @@ def serial_data():
 
 @app.route('/embed/<path:video_info>')
 def embed_video(video_info):
-    uri = f'{voidboost_uri}/embed/{video_info}'
-    query_args = {
-        'autoplay': request.args.get('autoplay'),
-        'start': request.args.get('start'),
-        's': request.args.get('s'),
-        'e': request.args.get('e'),
-        'h': request.args.get('h')
-    }
-    filtered_args = {key: value for key, value in query_args.items() \
-                      if value is not None}
-    if filtered_args:
-        query = urlencode(query_args)
-        uri += f'?{query}'
-
+    uri = map_uri_args(f'{voidboost_uri}/embed/{video_info}', request.args)
     return remove_ads(uri, proxy_uri)
 
 @app.route('/embed/<int:film_id>')
 def embed(film_id):
-    query_args = {
-        'autoplay': request.args.get('autoplay'),
-        'start': request.args.get('start'),
-        's': request.args.get('s'),
-        'e': request.args.get('e'),
-        'h': request.args.get('h')
-    }
-    filtered_args = {key: value for key, value in query_args.items() \
-                      if value is not None}
+    args = request.args.to_dict()
 
-    target_url = url_for('watch', film_id=film_id, **filtered_args)
+    target_url = url_for('watch', film_id=film_id, **args)
 
     return redirect(target_url)
 
 @app.route('/watch/<int:film_id>')
 def watch(film_id):
-    uri = f'{voidboost_uri}/embed/{film_id}'
-    query_args = {
-        'autoplay': request.args.get('autoplay'),
-        'start': request.args.get('start'),
-        's': request.args.get('s'),
-        'e': request.args.get('e'),
-        'h': request.args.get('h')
-    }
-    filtered_args = {key: value for key, value in query_args.items() \
-                      if value is not None}
-    
-    if filtered_args:
-        query = urlencode(query_args)
-        uri += f'?{query}'
-
+    uri = map_uri_args(f'{voidboost_uri}/embed/{film_id}', request.args)
     return remove_ads(uri, proxy_uri)
 
 @app.route('/app/views/images/<path:image_path>')
@@ -162,19 +106,7 @@ def serve_image(image_path):
 
 @app.route('/s')
 def s():
-    uri = f'{voidboost_uri}/s'
-
-    query_args = {
-        'd': request.args.get('d'),
-        '_': request.args.get('_')
-    }
-    filtered_args = {key: value for key, value in query_args.items() \
-                      if value is not None}
-    
-    if filtered_args:
-        query = urlencode(query_args)
-        uri += f'?{query}'
-
+    uri = map_uri_args(f'{voidboost_uri}/s', request.args)
     return get(uri)
 
 @app.route('/thumbnails/<slug>/<int:timestamp>')

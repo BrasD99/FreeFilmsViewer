@@ -5,7 +5,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from enum import Enum
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 from common.math import decrypt, encrypt
 
@@ -166,3 +166,9 @@ def prepare_config(file='config.json'):
                 config[key] = default_value
 
     return config
+
+def map_uri_args(uri, args):
+    args = args.to_dict()
+    query = urlencode(args)
+    uri += f'?{query}'
+    return uri
