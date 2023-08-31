@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Попытки поиска израсходованы</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/error.css') }}">
+</head>
+<body>
+    <div class="wrap">
+        <h1 class="label">К сожалению, попытки поиска израсходованы. Ждем Вас завтра!</h1>
+        <div class="container">
+            <div id="back_btn" class="button-container">
+               <button class="custom-btn btn-design">Назад</button>
+            </div>
+        </div>
+     </div>
+     <script src="{{ url_for('static', filename='scripts/error.js') }}"></script>
+</body>
+</html>

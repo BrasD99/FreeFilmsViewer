@@ -42,17 +42,26 @@ def home():
 def search():
     query = request.args.get('query')
 
-    films = catalog.search_by_name(query, only_first=True)
-    films = [film for i, film in enumerate(films) if film['filmId'] \
-             not in {x['filmId'] for x in films[:i]}]
-    
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        results = executor.map(check_film_availability, films, [voidboost_uri] * len(films))
-    films = [film for film in results if film is not None]
+    try:
+        films = catalog.search_by_name(query, only_first=True)
 
-    if films:
-        return render_template('search.html', films=films, query=query)
-    return redirect(url_for('not_found'))
+        films = [film for i, film in enumerate(films) if film['filmId'] \
+                not in {x['filmId'] for x in films[:i]}]
+        
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            results = executor.map(check_film_availability, films, [voidboost_uri] * len(films))
+        films = [film for film in results if film is not None]
+
+        if films:
+            return render_template('search.html', films=films, query=query)
+        return redirect(url_for('not_found'))
+    except Exception as e:
+        print(f'An error occured: {e}')
+        return redirect(url_for('error'))
+
+@app.route('/error') 
+def error():
+    return render_template('error.html')
 
 @app.route('/not_found') 
 def not_found():
@@ -132,7 +141,7 @@ def embed(film_id):
     filtered_args = {key: value for key, value in query_args.items() \
                       if value is not None}
 
-    target_url = url_for(f'watch', film_id=film_id, **filtered_args)
+    target_url = url_for('watch', film_id=film_id, **filtered_args)
 
     return redirect(target_url)
 

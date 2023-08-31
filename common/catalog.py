@@ -31,11 +31,10 @@ class Catalog:
                     break
 
                 if i == retry_limit - 1:
-                    raise Exception('Blocked ;(')
+                    raise Exception('Limit raised')
 
                 print(f"Request failed with status code {response.status_code}. Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
-
 
             pages_count = data['pagesCount']
 
