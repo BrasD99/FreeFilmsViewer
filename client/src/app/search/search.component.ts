@@ -11,7 +11,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SearchComponent implements OnInit {
   @Input() searchQuery: string | null;
-  isLoading: boolean = true;
   isSearched: boolean = false;
   films: Film[] = []
 
@@ -26,13 +25,11 @@ export class SearchComponent implements OnInit {
 
   handleSvgClick(searchText: string){
     this.searchQuery = searchText;
-    //this.updateQuery();
     this.loadFilms();
   }
 
   onEnterPressed(searchText: string){
     this.searchQuery = searchText;
-    //this.updateQuery();
     this.loadFilms();
   }
 
@@ -45,6 +42,8 @@ export class SearchComponent implements OnInit {
         } else {
           this.toastr.warning('Лимит запросов исчерпан, возвращайтесь завтра!', 'Уведомление', {
             positionClass: 'toast-top-center',
+            titleClass: 'toastr-title',
+            messageClass: 'toastr-message'
           });
         }
         this.spinner.hide();
@@ -54,28 +53,11 @@ export class SearchComponent implements OnInit {
         console.error('Error fetching films:', error);
         this.toastr.error('При обработке запроса возникла ошибка', 'Ошибка', {
           positionClass: 'toast-top-center',
+          titleClass: 'toastr-title',
+          messageClass: 'toastr-message'
         });
         this.spinner.hide();
       }
     });
-  }
-
-  updateQuery() {
-    const currentUrl = new URL(window.location.href);
-  
-    // Check if the current URL already contains a query parameter named "q"
-    if (currentUrl.searchParams.has('q')) {
-      // If it exists, replace the existing value with the new value
-      currentUrl.searchParams.set('q', this.searchQuery!);
-    } else {
-      // If it doesn't exist, add the new query parameter
-      currentUrl.searchParams.append('q', this.searchQuery!);
-    }
-  
-    // Get the updated URL with the modified query parameter
-    const updatedUrl = currentUrl.toString();
-  
-    // Update the URL without triggering a page reload
-    window.history.pushState({}, '', updatedUrl);
   }
 }
