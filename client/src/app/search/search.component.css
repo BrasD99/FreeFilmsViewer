@@ -5,6 +5,7 @@
     justify-content: center; /* Horizontally center the content */
     align-items: center; /* Vertically center the content */
     height: 100%; /* Make sure the wrapper takes up the full height of its parent if needed */
+	margin-top: 30px;
 }
 
 .search-wrapper {
