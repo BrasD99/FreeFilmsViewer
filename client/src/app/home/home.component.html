@@ -1,7 +1,7 @@
 <app-search *ngIf="searchQuery" [searchQuery]="searchQuery"></app-search>
 
 <div *ngIf="!searchQuery" class="container">
-    <h1>Бесплатный кинотеатр v.1.1</h1>
+    <h1>Бесплатный кинотеатр</h1>
     <div class="search-wrapper">
         <input #inputRef (keydown.enter)="onEnterPressed(inputRef.value)" class="search-input" type="text" placeholder="Название фильма">
         <svg (click)="handleSvgClick(inputRef.value)" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search" viewBox="0 0 24 24">
@@ -11,3 +11,7 @@
         </svg>
     </div>
 </div>
+
+<footer *ngIf="!searchQuery">
+  <h2>Сделано с ❤️ от <a href="https://t.me/brasd99" target="_blank">@brasd99</a></h2>
+</footer>
