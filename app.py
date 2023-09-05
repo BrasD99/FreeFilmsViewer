@@ -1,7 +1,6 @@
 import concurrent.futures
-from urllib.parse import urlencode
 
-from flask import Flask, make_response, redirect, render_template, request, url_for
+from flask import Flask, make_response, redirect, render_template, request, url_for, jsonify
 
 from common.catalog import Catalog
 from common.helpers import (
@@ -28,12 +27,11 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
-@app.route('/search')
-def search():
-    query = request.args.get('query')
-
+@app.route('/api/search', methods=['GET'])
+def api_search():
+    query = request.args.get('q')
     try:
         films = catalog.search_by_name(query, retry_limit, retry_delay, only_first=True)
 
@@ -44,20 +42,21 @@ def search():
             results = executor.map(check_film_availability, films, [voidboost_uri] * len(films))
         films = [film for film in results if film is not None]
 
-        if films:
-            return render_template('search.html', films=films, query=query)
-        return redirect(url_for('not_found'))
+        response_data = {
+            "status": True,
+            "films": films
+        }
+
     except Exception as e:
         print(f'An error occured: {e}')
-        return redirect(url_for('error'))
-
-@app.route('/error') 
-def error():
-    return render_template('error.html')
-
-@app.route('/not_found') 
-def not_found():
-    return render_template('not_found.html')
+        response_data = {
+            "status": False,
+            "films": []
+        }
+    
+    response = jsonify(response_data)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 @app.route('/proxy')
 def proxy():

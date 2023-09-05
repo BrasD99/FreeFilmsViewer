@@ -1,0 +1,51 @@
+<div class="top-header">
+    <div class="search-wrapper">
+      <input #inputRef (keydown.enter)="onEnterPressed(inputRef.value)" class="search-input" type="text" placeholder="Название фильма" value="{{searchQuery}}">
+      <svg (click)="handleSvgClick(inputRef.value)" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search" viewBox="0 0 24 24">
+        <defs></defs>
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="M21 21l-4.35-4.35"></path>
+      </svg>
+    </div>
+</div>
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div *ngIf="isSearched && films.length === 0" class="container">
+  <h2>К сожалению, ничего не нашлось.</h2>
+</div>
+
+
+<div class="container">
+  <div *ngFor="let film of films" class="movie-card">
+    <a href="/watch/{{film.filmId}}">
+      <div class="movie-header" [style.background]="'url(' + film.posterUrl + ') no-repeat center / cover'">
+      </div>
+    </a>
+    <div class="movie-content">
+      <div class="movie-content-header">
+        <a href="/watch/{{film.filmId}}">
+          <h3 class="movie-title">{{ film.nameRu }}</h3>
+        </a>
+      </div>
+      <div class="movie-info">
+        <div class="info-section">
+          <label>Тип</label>
+          <span>{{ film._type }}</span>
+        </div>
+        <div class="info-section">
+          <label>Год</label>
+          <span>{{ film.year }}</span>
+        </div>
+        <div class="info-section">
+          <label>Длительность</label>
+          <span>{{ film.filmLength }}</span>
+        </div>
+        <div class="info-section">
+          <label>Рейтинг</label>
+          <span>{{ film.rating }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,10 @@
 {
     "api_key": "e02bf4bf-c20b-4917-b118-fc938cfaed54",
     "voidboost_uri": "https://voidboost.tv",
+    "api_uri": {
+        "default": "http://127.0.0.1:8001/api",
+        "try_env": 1
+    },
     "proxy_uri": {
         "default": "http://127.0.0.1:8000/proxy?url=",
         "try_env": 1
