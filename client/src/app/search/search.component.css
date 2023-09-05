@@ -53,7 +53,7 @@ ul {
 	list-style-type: none;
 }
 
-h1, h2, h3, h4, h5, p {
+h1, h2, h3, h4, h5, p, label, span {
 	font-weight: 400;
 	font-family: 'Arimo', Arial, sans-serif;
 }
