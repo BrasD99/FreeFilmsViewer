@@ -6,6 +6,10 @@
     height: 90vh;
 }
 
+footer {
+    height: 5vh;
+}
+
 .search-wrapper {
     border-radius: 20px;
     background-color: #fff;
